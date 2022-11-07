@@ -26,11 +26,13 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Test
+        env:
+          E2EHubConnectionString: ${{secrets.E2EHubConnectionString}}
+          TestHubName: ${{secrets.TestHubName}} 
+        run: echo ${TestHubName}
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: Azure CLI script
+        uses: azure/CLI@v1
+        with:
+          inlineScript: az iot hub device-twin list --login ${E2EHubConnectionString}
