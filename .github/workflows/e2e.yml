@@ -38,6 +38,6 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az iot hub invoke-device-method -d e2edevice --method-name getRuntimeStats --method-payload '2'--login "${{ secrets.E2EHubConnectionString }}"
-            az iot hub invoke-device-method -d e2edevice --method-name getRuntimeStats --method-payload '2'--login "${{ secrets.E2EHubConnectionString }}"
+            az iot hub invoke-device-method -d e2edevice --method-name getRuntimeStats --method-payload '2' --timeout 10 --login "${{ secrets.E2EHubConnectionString }}"
+            az iot hub invoke-device-method -d e2edevice --method-name getRuntimeStats --method-payload '2' --timeout 10 --login "${{ secrets.E2EHubConnectionString }}"
             az iot hub device-identity delete -d e2edevice --login "${{ secrets.E2EHubConnectionString }}"
