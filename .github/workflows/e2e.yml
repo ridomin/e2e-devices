@@ -39,7 +39,7 @@ jobs:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
             az iot hub device-identity create -d e2edevice --login "${{ secrets.E2EHubConnectionString }}"
-            e2eDevConnString = $(az iot hub device-identity connection-string show -d e2edevice --login "${{ secrets.E2EHubConnectionString }}" --query connectionString | tr -d '"')
+            export e2eDevConnString=$(az iot hub device-identity connection-string show -d e2edevice --login "${{ secrets.E2EHubConnectionString }}" --query connectionString | tr -d '"')
             az iot hub device-identity delete -d e2edevice --login "${{ secrets.E2EHubConnectionString }}"
 
       - name: Run Device
