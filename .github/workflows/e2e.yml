@@ -27,6 +27,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Test
+        shell: bash
         env:
           E2EHubConnectionString: ${{secrets.E2EHubConnectionString}}
           TestHubName: ${{secrets.TestHubName}} 
