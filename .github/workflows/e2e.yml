@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: e2e
 
 # Controls when the workflow will run
 on:
@@ -30,11 +30,11 @@ jobs:
         env:
           E2EHubConnectionString: ${{secrets.E2EHubConnectionString}}
           TestHubName: ${{secrets.TestHubName}} 
-        run: echo ${{secrets.TestHubName}}
+        run: echo "${{ secrets.TestHubName }}"
 
       - name: Azure CLI script
         uses: azure/CLI@v1
         with:
           inlineScript: |
             az config set extension.use_dynamic_install=yes_without_prompt
-            az iot hub device-twin list --login ${{secrets.E2EHubConnectionString}}
+            az iot hub device-twin list --login "${{ secrets.E2EHubConnectionString }}"
