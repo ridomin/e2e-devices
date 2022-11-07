@@ -12,6 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: IoTHubTest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3
 
@@ -31,11 +32,12 @@ jobs:
             echo e2eDevConnString=$(az iot hub device-identity connection-string show -d e2edevice --login "${{ secrets.E2EHubConnectionString }}" --query connectionString | tr -d '"') >> $GITHUB_ENV
 
       - name: Run Device
-        run: docker run --rm -e ConnectionStrings__cs="${{ env.e2eDevConnString }}" ghcr.io/iotmodels/memmon:x64
+        run: docker run -d --rm -e ConnectionStrings__cs="${{ env.e2eDevConnString }}" ghcr.io/iotmodels/memmon:x64
 
       - name: InvokeCommand
         uses: azure/CLI@v1
         with:
           inlineScript: |
+            az iot hub invoke-device-method -d e2edevice --method-name getRuntimeStats --method-payload '2'--login "${{ secrets.E2EHubConnectionString }}"
             az iot hub invoke-device-method -d e2edevice --method-name getRuntimeStats --method-payload '2'--login "${{ secrets.E2EHubConnectionString }}"
             az iot hub device-identity delete -d e2edevice --login "${{ secrets.E2EHubConnectionString }}"
