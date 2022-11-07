@@ -31,7 +31,7 @@ jobs:
             echo e2eDevConnString=$(az iot hub device-identity connection-string show -d e2edevice --login "${{ secrets.E2EHubConnectionString }}" --query connectionString | tr -d '"') >> $GITHUB_ENV
 
       - name: Run Device
-        run: docker run -it --rm -e ConnectionStrings__cs="${{ env.e2eDevConnString }}" ghcr.io/iotmodels/memmon:x64
+        run: docker run --rm -e ConnectionStrings__cs="${{ env.e2eDevConnString }}" ghcr.io/iotmodels/memmon:x64
 
       - name: InvokeCommand
         uses: azure/CLI@v1
